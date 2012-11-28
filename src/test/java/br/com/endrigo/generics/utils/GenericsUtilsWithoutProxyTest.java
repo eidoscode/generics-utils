@@ -7,7 +7,7 @@ import static junit.framework.Assert.assertNotNull;
  * 
  * Unit test to check an object that is not behind a proxy.
  * 
- * @author antonini
+ * @author eantonini
  * @since 1.0
  * @version 1.0
  * 

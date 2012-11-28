@@ -13,7 +13,7 @@ import org.junit.Test;
  * 
  * Unit test to check an object that is not behind a proxy.
  * 
- * @author antonini
+ * @author eantonini
  * @since 1.0
  * @version 1.0
  * 
@@ -22,9 +22,11 @@ public class GenericsUtilsWithProxyTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testWithoutProxyExternal2Class() {
-		IModel<String, Integer, Boolean> model = new ModelWithProxy();
-
+	public void testWithoutProxyExternal2Class() throws Exception {
+		Class<ModelWithProxy> cW = ModelWithProxy.class;
+		IModel<String, Integer, Boolean> model = cW.newInstance();
+		
+		
 		model = getProxy(IModel.class, model);
 		System.out.println("#### >>>>" + model.getClass());
 		assertNotNull(model);
