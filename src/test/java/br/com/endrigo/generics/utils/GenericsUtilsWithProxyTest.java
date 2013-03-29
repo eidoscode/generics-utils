@@ -1,7 +1,7 @@
 package br.com.endrigo.generics.utils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -25,8 +25,7 @@ public class GenericsUtilsWithProxyTest {
 	public void testWithoutProxyExternal2Class() throws Exception {
 		Class<ModelWithProxy> cW = ModelWithProxy.class;
 		IModel<String, Integer, Boolean> model = cW.newInstance();
-		
-		
+
 		model = getProxy(IModel.class, model);
 		System.out.println("#### >>>>" + model.getClass());
 		assertNotNull(model);
