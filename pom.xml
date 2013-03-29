@@ -3,7 +3,7 @@
 
 	<groupId>br.com.endrigo.utils</groupId>
 	<artifactId>generics-utils</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>Generics Utils</name>
