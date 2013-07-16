@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com.endrigo.utils</groupId>
+	<groupId>com.eidoscode.utils</groupId>
 	<artifactId>generics-utils</artifactId>
 	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Generics Utils</name>
 	<description>The purpose of this component is to provide some utility classes to help to work with Generics. It was designed to use it as a dependency of your project and specially if you are working with EJB.</description>
-	<url>http://libraries.endrigo.com.br/generics-utils/</url>
+	<url>http://www.eidoscode.com/</url>
 
 	<inceptionYear>2012</inceptionYear>
 	
@@ -17,9 +17,9 @@
 	</properties>
 	
 	<scm>
-		<connection>scm:git:https://github.com/antonini/generics-utils.git</connection>
-		<developerConnection>scm:git:https://github.com/antonini/generics-utils.git</developerConnection>
-		<url>https://github.com/antonini/generics-utils</url>
+		<connection>scm:git:https://github.com/eidoscode/generics-utils.git</connection>
+		<developerConnection>scm:git:https://github.com/eidoscode/generics-utils.git</developerConnection>
+		<url>https://github.com/eidoscode/generics-utils</url>
 	</scm>
 	
 	<licenses>
@@ -31,7 +31,7 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/antonini/generics-utils/issues</url>
+		<url>https://github.com/eidoscode/generics-utils/issues</url>
 	</issueManagement>
 	
 	<dependencies>
@@ -61,24 +61,20 @@
 
 	<distributionManagement>
 		<repository>
-			<id>endrigo-repository</id>
-			<url>ftp://ftp.endrigoantonini.com.br/</url>
+			<id>eidocode-releases</id>
+			<url>http://repo.eidoscode.com/maven/releases</url>
 		</repository>
+		<snapshotRepository>
+			<id>eidocode-snapshot</id>
+			<url>http://repo.eidoscode.com/maven/snapshots</url>
+		</snapshotRepository>
 		<site>
-			<id>endrigo-repository-site</id>
-			<url>ftp://ftp.endrigoantonini.com.br/generics-utils/</url>
+			<id>eidocode-page</id>
+			<url>https://github.com/eidoscode/generics-utils/raw/gh-pages</url>
 		</site>
 	</distributionManagement>
 
 	<build>
-		<extensions>
-			<!-- Enabling the use of FTP -->
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>2.3</version>
-			</extension>
-		</extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -159,9 +155,9 @@
 								<Built-By>Endrigo Antonini</Built-By>
 								<Specification-Title>Generic Utils</Specification-Title>
 								<Specification-Version>${project.version}</Specification-Version>
-								<Specification-Vendor>Endrigo Antonini</Specification-Vendor>
+								<Specification-Vendor>Eidos Code</Specification-Vendor>
 								<Implementation-Version>${project.version}</Implementation-Version>
-								<Implementation-Vendor>Endrigo Antonini</Implementation-Vendor>
+								<Implementation-Vendor>Eidos Code</Implementation-Vendor>
 								<Implementation-Title>Generic Utils</Implementation-Title>
 							</manifestEntries>
 						</archive>
@@ -177,7 +173,7 @@
 						<windowtitle>Generic Utils</windowtitle>
 						<doctitle>Generic Utils</doctitle>
 						<links>
-							<link>http://www.endrigo.com.br</link>
+							<link>http://www.eidoscode.com/</link>
 						</links>
 					</configuration>
 				</plugin>

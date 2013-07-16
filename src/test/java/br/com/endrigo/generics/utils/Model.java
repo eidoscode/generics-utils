@@ -1,5 +1,7 @@
 package br.com.endrigo.generics.utils;
 
+import com.eidoscode.generics.utils.GenericsUtils;
+
 
 /**
  * Model.
