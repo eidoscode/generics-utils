@@ -3,7 +3,7 @@
 
 	<groupId>com.eidoscode.utils</groupId>
 	<artifactId>generics-utils</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.5</version>
 	<packaging>jar</packaging>
 
 	<name>Generics Utils</name>
