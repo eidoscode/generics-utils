@@ -70,7 +70,7 @@
 		</snapshotRepository>
 		<site>
 			<id>eidocode-page</id>
-			<url>https://github.com/eidoscode/generics-utils/raw/gh-pages</url>
+			<url>http://github.eidoscode.com/generics-utils/</url>
 		</site>
 	</distributionManagement>
 
