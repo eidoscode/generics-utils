@@ -1,4 +1,4 @@
-package br.com.endrigo.generics.utils;
+package com.eidoscode.generics.utils.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

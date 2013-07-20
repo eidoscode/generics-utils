@@ -1,4 +1,4 @@
-package br.com.endrigo.generics.utils;
+package com.eidoscode.generics.utils.test;
 
 /**
  * Model with proxy.

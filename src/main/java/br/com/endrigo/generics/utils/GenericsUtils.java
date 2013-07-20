@@ -1,5 +1,11 @@
 package br.com.endrigo.generics.utils;
 
+/**
+ * @deprecated Use the {@link com.eidoscode.generics.utils.GenericsUtils}
+ *             instead of this class
+ * @author eantonini
+ * 
+ */
 @Deprecated
 public class GenericsUtils {
 
