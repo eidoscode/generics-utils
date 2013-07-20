@@ -71,7 +71,7 @@
 		</snapshotRepository>
 		<site>
 			<id>eidoscode-repository-site</id>
-			<url>ftp://ftp.eidoscode.com/java-utils/</url>
+			<url>ftp://ftp.eidoscode.com/generics-utils/</url>
 		</site>
 	</distributionManagement>
 
