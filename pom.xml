@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eidoscode.utils</groupId>
@@ -61,17 +62,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>eidoscode-repository-release</id>
-			<url>ftp://ftp.eidoscode.com/</url>
+			<id>eidoscode-sshrepository</id>
+			<url>scp://ssh.eidoscode.com/www/repo.eidoscode.com/maven2/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>eidoscode-repository-snapshot</id>
-			<url>ftp://ftp.eidoscode.com/</url>
+			<id>eidoscode-sshrepository</id>
+			<url>scp://ssh.eidoscode.com/www/repo.eidoscode.com/maven2/snapshots</url>
 			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 		<site>
-			<id>eidoscode-repository-site</id>
-			<url>ftp://ftp.eidoscode.com/generics-utils/</url>
+			<id>eidoscode-sshrepository</id>
+			<url>scp://ssh.eidoscode.com/www/libs.eidoscode.com/generics-utils</url>
 		</site>
 	</distributionManagement>
 
@@ -80,8 +81,8 @@
 			<!-- Enabling the use of FTP -->
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>2.3</version>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
 			</extension>
 		</extensions>
 		<pluginManagement>
