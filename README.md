@@ -17,7 +17,7 @@ This source is licensed under the Apache Software License version 2.0.
 <dependency>
 	<groupId>com.eidoscode.utils</groupId>
 	<artifactId>generics-utils</artifactId>
-	<version>1.0.5</version>
+	<version>1.1.4</version>
 </dependency>
 ```
 
