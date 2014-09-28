@@ -3,10 +3,9 @@ package com.eidoscode.generics.utils.test;
 /**
  * Model with proxy.
  * 
- * @author eantonini
- *
+ * @author antonini
+ * 
  */
 public class ModelWithProxy extends Model<String, Integer, Boolean> {
 
-	
 }

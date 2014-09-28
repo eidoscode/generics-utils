@@ -1,5 +1,7 @@
 package com.eidoscode.generics.utils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -18,6 +20,106 @@ import org.apache.log4j.Logger;
 public final class GenericsUtils {
 
   private static final Logger LOGGER = Logger.getLogger(GenericsUtils.class);
+
+  /**
+   * Hide constructor.
+   */
+  private GenericsUtils() {
+  }
+
+  /**
+   * Copy the content inside the source object to the destination object.
+   * 
+   * @param source
+   *          Source object.
+   * @param destination
+   *          Destination object.
+   * @throws IllegalAccessException
+   *           Throw if there is some problem accessing the source or
+   *           destination fields.
+   * @throws IllegalArgumentException
+   *           Throw if there is some problem accessing the source or
+   *           destination fields.
+   * @throws SecurityException
+   *           Throw if there is some problem accessing the source or
+   *           destination fields.
+   * @throws NoSuchFieldException
+   *           Throw if there is some problem accessing the source or
+   *           destination fields.
+   * @throws NullPointerException
+   *           Throw it if the source of destination is null.
+   */
+  public static <T, K extends T> void copyContent(T source, K destination) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+      SecurityException {
+    if (source == null) {
+      throw new NullPointerException("The source parameter is mandatory");
+    }
+    if (destination == null) {
+      throw new NullPointerException("The destination parameter is mandatory");
+    }
+    Class<?> cSource = source.getClass();
+    Field[] sFields = cSource.getDeclaredFields();
+    Class<?> cDestination = destination.getClass();
+
+    for (Field sField : sFields) {
+
+      if (checkModifiers(sField, false, Modifier.STATIC)) {
+        continue;
+      }
+      // Avoiding concurrency problem
+      synchronized (cSource) {
+        final String fieldName = sField.getName();
+
+        // Save the current state of the field
+        final boolean sOrigAccessible = sField.isAccessible();
+
+        // Destination field
+        final Field dField = cDestination.getDeclaredField(fieldName);
+        final boolean dOrigAccessible = dField.isAccessible();
+
+        // Make it accessible
+        sField.setAccessible(true);
+        dField.setAccessible(true);
+
+        // Copy content
+        Object value = sField.get(source);
+        dField.set(destination, value);
+
+        // Restore the state of the Field
+        sField.setAccessible(sOrigAccessible);
+        dField.setAccessible(dOrigAccessible);
+      }
+    }
+  }
+
+  /**
+   * Check the field modifiers. If one of the given modifiers is present it
+   * returns true.
+   * 
+   * @param field
+   *          Field that want to be checked.
+   * @param checkAll
+   *          If <code>true</code> the given field must contains ALL the given
+   *          modifiers, but if <code>false</code> means that if the given field
+   *          contains one of the given modifiers it will return true.
+   * @param modifiers
+   *          List of modifiers.
+   * @return Read the content on the parameter checkAll because that parameter
+   *         can change the possible result.
+   */
+  public static boolean checkModifiers(Field field, boolean checkAll, int... modifiers) {
+    final int fieldModifiers = field.getModifiers();
+
+    boolean retValue = false;
+    if (checkAll) {
+      retValue = true;
+    }
+    for (int i = 0; i < modifiers.length && ((checkAll && retValue) || (!checkAll && !retValue)); i++) {
+      int modifier = modifiers[i];
+      retValue = (fieldModifiers & modifier) != 0;
+    }
+    return retValue;
+  }
 
   /**
    * The purpose of this method is to bring the first generic type informed on
