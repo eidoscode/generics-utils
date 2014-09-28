@@ -30,7 +30,7 @@ To use it add the following repository to your pom.
 <repositories>
   <repository>
 		<id>eidocode-releases</id>
-		<url>http://repo.eidoscode.com/maven/releases/</url>
+		<url>http://repo.eidoscode.com/maven2/releases/</url>
 	</repository>
 </repositories>
 ```
