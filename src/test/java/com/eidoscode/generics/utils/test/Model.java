@@ -27,12 +27,12 @@ public class Model<X, Y, Z> implements IModel<X, Y, Z> {
 
   private static final String PRIV_STAT_FIN = "PRIV_STAT_FIN";
   private static String PRIV_STAT = "PRIV_STAT";
-  private final String privPub = "PRIV_FIN";
+  private final String finPriv = "FIN_PRIV";
   private String priv = "PRIV";
 
   static final String DEF_STAT_FIN = "DEF_STAT_FIN";
   static String DEF_STAT = "DEF_STAT";
-  final String defPub = "DEF_FIN";
+  final String finDef = "FIN_DEF";
   String def = "DEF";
 
   /**
@@ -98,10 +98,6 @@ public class Model<X, Y, Z> implements IModel<X, Y, Z> {
     return PRIV_STAT;
   }
 
-  public String getPrivPub() {
-    return privPub;
-  }
-
   public String getPriv() {
     return priv;
   }
@@ -114,12 +110,16 @@ public class Model<X, Y, Z> implements IModel<X, Y, Z> {
     return DEF_STAT;
   }
 
-  public String getDefPub() {
-    return defPub;
-  }
-
   public String getDef() {
     return def;
+  }
+
+  public String getFinPriv() {
+    return finPriv;
+  }
+
+  public String getFinDef() {
+    return finDef;
   }
 
 }
