@@ -218,13 +218,11 @@ public final class GenericsUtils {
     }
 
     Class<T> retValue = null;
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Original class: \'" + clazz.getName() + "\' Looking for an class that extends this class: \'" + clazzType.getName() + "\'");
-    }
+    LOGGER.debug("Original class: \'" + clazz.getName() + "\' Looking for an class that extends this class: \'"
+        + ((clazzType == null) ? "null" : clazzType.getName()) + "\'");
     Class<?> retClazz = getClass(clazz, clazzType);
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Found the class: \'" + ((retClazz != null) ? retClazz.getName() : "null") + "\' that extends this class: \'" + clazzType.getName() + "\'");
-    }
+    LOGGER.debug("Found the class: \'" + ((retClazz != null) ? retClazz.getName() : "null") + "\' that extends this class: \'"
+        + ((clazzType == null) ? "null" : clazzType.getName()) + "\'");
 
     if (retClazz != null) {
       Type genericType = retClazz.getGenericSuperclass();
@@ -251,10 +249,14 @@ public final class GenericsUtils {
    *          Type of the class that will be checked.
    * @return The implementation class.
    */
-  private static Class<?> getClass(final Class<?> clazz, Class<?> clazzType) {
+  public static Class<?> getClass(final Class<?> clazz, Class<?> clazzType) {
+    if (clazz == null) {
+      throw new NullPointerException("The class argument is mandatory.");
+    }
+
     Class<?> retClass = null;
 
-    if (clazz != null && clazzType.isAssignableFrom(clazz)) {
+    if (clazzType == null || clazzType.isAssignableFrom(clazz)) {
       retClass = clazz;
     }
 
