@@ -61,17 +61,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>eidoscode-sshrepository</id>
-			<url>scp://ssh.eidoscode.com/www/repo.eidoscode.com/maven2/releases</url>
+			<id>eidoscode-mvn-repository</id>
+			<url>scp://eidoscode.com/deploy/maven2/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>eidoscode-sshrepository</id>
-			<url>scp://ssh.eidoscode.com/www/repo.eidoscode.com/maven2/snapshots</url>
+			<id>eidoscode-mvn-repository</id>
+			<url>scp://eidoscode.com/deploy/maven2/snapshots/</url>
 			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 		<site>
-			<id>eidoscode-sshrepository</id>
-			<url>scp://ssh.eidoscode.com/www/libs.eidoscode.com/generics-utils</url>
+			<id>eidoscode-mvn-repository</id>
+			<url>scp://eidoscode.com/deploy/site/generics-utils/${project.version}</url>
 		</site>
 	</distributionManagement>
 
