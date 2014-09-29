@@ -3,7 +3,7 @@
 
 	<groupId>com.eidoscode.utils</groupId>
 	<artifactId>generics-utils</artifactId>
-	<version>1.1.5-SNAPSHOT</version>
+	<version>1.1.5</version>
 	<packaging>jar</packaging>
 
 	<name>Generics Utils</name>
@@ -20,7 +20,7 @@
 		<connection>scm:git:https://github.com/eidoscode/generics-utils.git</connection>
 		<developerConnection>scm:git:https://github.com/eidoscode/generics-utils.git</developerConnection>
 		<url>https://github.com/eidoscode/generics-utils</url>
-	  <tag>HEAD</tag>
+	  <tag>generics-utils-1.1.5</tag>
   </scm>
 
 	<licenses>
