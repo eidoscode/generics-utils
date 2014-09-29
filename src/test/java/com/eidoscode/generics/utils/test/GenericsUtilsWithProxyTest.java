@@ -27,7 +27,6 @@ public class GenericsUtilsWithProxyTest {
     IModel<String, Integer, Boolean> model = cW.newInstance();
 
     model = getProxy(IModel.class, model);
-    System.out.println("#### >>>>" + model.getClass());
     assertNotNull(model);
     assertEquals(String.class, model.getX());
     assertEquals(Integer.class, model.getY());

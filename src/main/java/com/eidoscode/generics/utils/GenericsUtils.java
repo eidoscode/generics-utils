@@ -4,8 +4,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-import org.apache.log4j.Logger;
+import java.lang.reflect.TypeVariable;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The purpose of this utility class is to make it easier to capture the
@@ -15,11 +18,11 @@ import org.apache.log4j.Logger;
  * 
  * @author antonini
  * @since 1.0
- * @version 1.0.2
+ * @version 1.0.3
  */
 public final class GenericsUtils {
 
-  private static final Logger LOGGER = Logger.getLogger(GenericsUtils.class);
+  // private static final Logger LOGGER = Logger.getLogger(GenericsUtils.class);
 
   /**
    * Hide constructor.
@@ -174,7 +177,7 @@ public final class GenericsUtils {
    * <pre>
    * class GarageExpensiveSportCar extends Garage<SportCar, ExpensivePrice> {
    * 
-   * 		// Other source code...
+   * // Other source code...
    * }
    * </pre>
    * </code> <br/>
@@ -183,60 +186,117 @@ public final class GenericsUtils {
    * <pre>
    * class Garage<CarType extends Car, PriceType extends Pricing> {
    * 
-   * 		private Class<CarType> carType;
-   * 		private Class<PriceType> priceType;
+   * private Class<CarType> carType;
+   * private Class<PriceType> priceType;
    * 
-   * 		Garage() {
-   * 			carType = GenericsUtils.getSuperClassGenericType(getClass(), 0);
-   * 			priceType = GenericsUtils.getSuperClassGenericType(getClass(), 1);
-   * 		}
+   * abstract Garage() {
+   * carType = GenericsUtils.getSuperClassGenericType(getClass(), Garage.class, 0);
+   * priceType = GenericsUtils.getSuperClassGenericType(getClass(), Garage.class, 1);
+   * }
    * }
    * </pre>
    * </code> On this sample, inside an instance of the GarageSportCar, the value
    * on the carType variable is going to be the class SportCar and the value on
-   * the priceType variable is going to be the class ExpensivePrice.
+   * the priceType variable is going to be the class ExpensivePrice. <br/>
+   * <br/>
+   * <i>Note: The source of the following parameter was a merge between the
+   * original source code and the code provided on the StackOverflow thread
+   * http://stackoverflow.com/a/17301917/1501876.</i>
    * 
-   * @param clazz
+   * @param targetClazz
    *          Class to search the parameter passed throw the generalization.
-   *          Normally is going to be "getClass()".
-   * @param clazzType
+   *          Normally is going to be "getClass()" or the desired object.
+   * @param baseClazz
    *          The Class that need to be implemented and you are looking for on
    *          the first level of implementation.
    * @param index
    *          The index of the parameter that you want. Remember, this is a base
    *          zero index.
+   * @param actualArgs
+   *          The actual type arguments passed to the targetClazz (recursive
+   *          helper parameter).
    * @return The class type of the first parameter passed on the generalization
    *         of the class. If not found, is going to return <code>null</code>.
    */
   @SuppressWarnings("unchecked")
-  public static <X, T> Class<T> getSuperClassGenericType(final Class<?> clazz, Class<X> clazzType, int index) {
-    if (clazz == null) {
+  public static <T> Class<T> getSuperClassGenericType(final Class<?> targetClazz, Class<?> baseClazz, int index, Type... actualArgs) {
+    if (targetClazz == null) {
       throw new NullPointerException("The class argument is mandatory.");
     }
     if (index < 0) {
       throw new IllegalArgumentException("The index value can not be less than 0.");
     }
 
-    Class<T> retValue = null;
-    LOGGER.debug("Original class: \'" + clazz.getName() + "\' Looking for an class that extends this class: \'"
-        + ((clazzType == null) ? "null" : clazzType.getName()) + "\'");
-    Class<?> retClazz = getClass(clazz, clazzType);
-    LOGGER.debug("Found the class: \'" + ((retClazz != null) ? retClazz.getName() : "null") + "\' that extends this class: \'"
-        + ((clazzType == null) ? "null" : clazzType.getName()) + "\'");
+    // If actual types are omitted, the type parameters will be used instead.
+    if (actualArgs.length == 0) {
+      actualArgs = targetClazz.getTypeParameters();
+    }
+    targetClazz.getGenericSuperclass();
+    // map type parameters into the actual types
+    Map<String, Type> typeVariables = new HashMap<String, Type>();
+    for (int i = 0; i < actualArgs.length; i++) {
+      TypeVariable<?> typeVariable = (TypeVariable<?>) targetClazz.getTypeParameters()[i];
+      typeVariables.put(typeVariable.getName(), actualArgs[i]);
+    }
 
-    if (retClazz != null) {
-      Type genericType = retClazz.getGenericSuperclass();
-      if (genericType instanceof ParameterizedType) {
-        Type[] params = ((ParameterizedType) genericType).getActualTypeArguments();
-        if (index < params.length) {
-          Type type = params[index];
-          if (type instanceof Class) {
-            retValue = (Class<T>) type;
+    // Find direct ancestors (superclass, interfaces)
+    List<Type> ancestors = new LinkedList<Type>();
+    if (targetClazz.getGenericSuperclass() != null) {
+      ancestors.add(targetClazz.getGenericSuperclass());
+    }
+    for (Type t : targetClazz.getGenericInterfaces()) {
+      ancestors.add(t);
+    }
+
+    // Recurse into ancestors (superclass, interfaces)
+    for (Type type : ancestors) {
+      if (type instanceof Class<?>) {
+        // ancestor is non-parameterized. Recurse only if it matches the base
+        // class.
+        Class<?> ancestorClass = (Class<?>) type;
+        if (baseClazz.isAssignableFrom(ancestorClass)) {
+          return getSuperClassGenericType((Class<? extends T>) ancestorClass, baseClazz, index);
+        }
+      }
+      if (type instanceof ParameterizedType) {
+        // ancestor is parameterized. Recurse only if the raw type matches the
+        // base class.
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        Type rawType = parameterizedType.getRawType();
+        if (rawType instanceof Class<?>) {
+          Class<?> rawTypeClass = (Class<?>) rawType;
+          if (baseClazz.isAssignableFrom(rawTypeClass)) {
+
+            // loop through all type arguments and replace type variables with
+            // the actually known types
+            List<Type> resolvedTypes = new LinkedList<Type>();
+            for (Type t : parameterizedType.getActualTypeArguments()) {
+              if (t instanceof TypeVariable<?>) {
+                Type resolvedType = typeVariables.get(((TypeVariable<?>) t).getName());
+                resolvedTypes.add(resolvedType != null ? resolvedType : t);
+              } else {
+                resolvedTypes.add(t);
+              }
+            }
+
+            return getSuperClassGenericType((Class<? extends T>) rawTypeClass, baseClazz, index, resolvedTypes.toArray(new Type[] {}));
           }
         }
       }
     }
-    return retValue;
+
+    // we have a result if we reached the base class.
+    if (targetClazz.equals(baseClazz)) {
+      Type retType = actualArgs[index];
+      // It is not been possible to resolve same level of type.
+      // if (retType instanceof TypeVariable<?>) {
+      // TypeVariable<?> typeVariable = (TypeVariable<?>) retType;
+      // } else
+      if (retType instanceof Class<?>) {
+        return (Class<T>) retType;
+      }
+    }
+    return null;
   }
 
   /**
